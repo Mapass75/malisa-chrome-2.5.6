@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Malisa — Settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="bg-tint" aria-hidden="true"></div>
+    <div class="container">
+      <header>
+        <h1 id="pageTitle">Malisa - AI web site Translator</h1>
+        <p id="pageSubtitle"></p>
+      </header>
+
+      <section id="privacyCard" class="card privacy-card hidden">
+        <h2 id="privacyTitle"></h2>
+        <p id="privacyBody" class="privacy-text"></p>
+        <label class="consent-label">
+          <input type="checkbox" id="privacyConsent" />
+          <span id="privacyConsentText"></span>
+          <a href="#" id="privacyPolicyLink"></a>
+          <span id="privacyAgreeText"></span>
+        </label>
+        <button id="acceptPrivacyBtn" class="btn primary"></button>
+      </section>
+
+      <div id="settingsContent">
+        <div class="layout">
+          <aside class="sidebar">
+            <nav class="side-nav" id="sideNav" aria-label="Settings sections">
+              <a class="nav-item active" href="#sec-general" data-section="sec-general">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h9M17 8h3M4 16h3M11 16h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="15" cy="8" r="2" fill="currentColor"/><circle cx="9" cy="16" r="2" fill="currentColor"/></svg>
+                <span id="navGeneral"></span>
+              </a>
+              <a class="nav-item" href="#sec-providers" data-section="sec-providers">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <span id="navProviders"></span>
+              </a>
+              <a class="nav-item" href="#sec-fallback" data-section="sec-fallback">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4 3 8l4 4M3 8h13M17 20l4-4-4-4M21 16H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                <span id="navFallback"></span>
+              </a>
+              <a class="nav-item" href="#sec-speech" data-section="sec-speech">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+                <span id="navSpeech"></span>
+              </a>
+              <a class="nav-item" href="#sec-cache" data-section="sec-cache">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+                <span id="navCache"></span>
+              </a>
+              <a class="nav-item" href="#sec-about" data-section="sec-about">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 11v5M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                <span id="navAbout"></span>
+              </a>
+            </nav>
+          </aside>
+
+          <main class="content">
+            <section class="page-section" id="sec-general">
+              <div class="card">
+                <h2 id="generalTitle"></h2>
+                <p class="section-desc" id="descGeneral"></p>
+                <div class="field">
+                  <label id="labelUiLanguage" for="uiLanguage"></label>
+                  <select id="uiLanguage"></select>
+                </div>
+                <div class="field">
+                  <label id="labelDefaultLanguage" for="defaultLanguage"></label>
+                  <select id="defaultLanguage"></select>
+                </div>
+                <div class="field">
+                  <label id="labelActiveProvider" for="activeProvider"></label>
+                  <select id="activeProvider"></select>
+                  <p class="hint warn" id="mymemoryWarn" hidden></p>
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label id="labelBatchSize" for="batchSize"></label>
+                    <input type="number" id="batchSize" min="40" max="150" value="120" />
+                  </div>
+                  <div class="field">
+                    <label id="labelParallel" for="parallelRequests"></label>
+                    <input type="number" id="parallelRequests" min="1" max="20" value="20" />
+                  </div>
+                </div>
+                <span id="batchHint" class="hint"></span>
+                <div class="field">
+                  <label id="labelSkipDomains" for="skipDomains"></label>
+                  <textarea id="skipDomains" rows="2" placeholder="mail.google.com"></textarea>
+                </div>
+                <div class="field">
+                  <label id="labelTranslatorTheme"></label>
+                  <div id="translatorThemeToggle" class="theme-segment" role="group">
+                    <button type="button" class="theme-segment-btn" data-theme="light" id="settingsThemeLight"></button>
+                    <button type="button" class="theme-segment-btn" data-theme="dark" id="settingsThemeDark"></button>
+                    <button type="button" class="theme-segment-btn" data-theme="system" id="settingsThemeSystem"></button>
+                  </div>
+                  <span id="translatorThemeHint" class="hint"></span>
+                </div>
+              </div>
+            </section>
+
+            <section class="page-section" id="sec-providers">
+              <div class="section-head">
+                <h2 id="providersTitle"></h2>
+                <p class="section-desc" id="descProviders"></p>
+              </div>
+              <input type="text" id="providerSearch" class="search-input" />
+              <div id="providerSections"></div>
+            </section>
+
+            <section class="page-section" id="sec-fallback">
+              <div class="card" id="fallbackCard">
+                <h2 id="fallbackTitle"></h2>
+                <p class="hint" id="fallbackHint"></p>
+                <div class="field">
+                  <div class="ms" id="fallbackMs">
+                    <button type="button" class="ms-btn" id="fallbackMsBtn" aria-haspopup="true" aria-expanded="false"></button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="page-section" id="sec-speech">
+              <div class="card">
+                <h2 id="speechTitle"></h2>
+                <p class="section-desc" id="descSpeech"></p>
+                <div class="field">
+                  <label id="labelSpeechEngine" for="speechEngine"></label>
+                  <select id="speechEngine"></select>
+                  <span id="speechEngineInfo" class="hint"></span>
+                  <span id="speechEngineLink" class="hint key-link" hidden></span>
+                  <p class="hint" id="speechNote"></p>
+                </div>
+                <label class="switch-row">
+                  <input type="checkbox" id="selectionTtsEnabled" checked />
+                  <span class="track"></span>
+                  <span id="selectionTtsEnableLabel"></span>
+                </label>
+                <div class="field" id="speechBrowserFields">
+                  <label id="labelSpeechVoice" for="speechVoice"></label>
+                  <select id="speechVoice"></select>
+                </div>
+                <div class="field" id="speechGoogleFields" hidden>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechGoogleKey" for="speechGoogleKey"></label>
+                      <input type="password" id="speechGoogleKey" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechVoiceName" for="speechGoogleVoice"></label>
+                      <input type="text" id="speechGoogleVoice" placeholder="en-US-Standard-A" />
+                    </div>
+                  </div>
+                </div>
+                <div class="field" id="speechGeminiFields" hidden>
+                  <label id="labelSpeechGeminiModel" for="speechGeminiModel"></label>
+                  <input type="text" id="speechGeminiModel" placeholder="gemini-2.5-flash-preview-tts" />
+                  <span class="hint" id="speechGeminiHint"></span>
+                </div>
+                <div class="field" id="speechOpenaiFields" hidden>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechOpenaiVoice" for="speechOpenaiVoice"></label>
+                      <select id="speechOpenaiVoice"></select>
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechOpenaiModel" for="speechOpenaiModel"></label>
+                      <select id="speechOpenaiModel"></select>
+                    </div>
+                  </div>
+                  <span class="hint" id="speechOpenaiHint"></span>
+                </div>
+                <div class="field" id="speechAzureFields" hidden>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechAzureKey" for="speechAzureKey"></label>
+                      <input type="password" id="speechAzureKey" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechAzureRegion" for="speechAzureRegion"></label>
+                      <input type="text" id="speechAzureRegion" placeholder="westeurope" />
+                    </div>
+                  </div>
+                  <label id="labelSpeechAzureVoice" for="speechAzureVoice"></label>
+                  <input type="text" id="speechAzureVoice" placeholder="hr-HR-GabrijelaNeural" />
+                  <span class="hint" id="speechAzureHint"></span>
+                </div>
+                <div class="field" id="speechPollyFields" hidden>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechPollyAccessKey" for="speechPollyAccessKey"></label>
+                      <input type="password" id="speechPollyAccessKey" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechPollySecretKey" for="speechPollySecretKey"></label>
+                      <input type="password" id="speechPollySecretKey" autocomplete="off" />
+                    </div>
+                  </div>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechPollyRegion" for="speechPollyRegion"></label>
+                      <input type="text" id="speechPollyRegion" placeholder="us-east-1" />
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechPollyVoice" for="speechPollyVoice"></label>
+                      <input type="text" id="speechPollyVoice" placeholder="Joanna" />
+                    </div>
+                  </div>
+                  <span class="hint" id="speechPollyHint"></span>
+                </div>
+                <div class="field" id="speechCustomFields" hidden>
+                  <label id="labelSpeechCustomBaseUrl" for="speechCustomBaseUrl"></label>
+                  <input type="text" id="speechCustomBaseUrl" placeholder="http://localhost:8880/v1" />
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechCustomKey" for="speechCustomKey"></label>
+                      <input type="password" id="speechCustomKey" autocomplete="off" />
+                    </div>
+                    <div class="field">
+                      <label id="labelSpeechCustomModel" for="speechCustomModel"></label>
+                      <input type="text" id="speechCustomModel" placeholder="kokoro" />
+                    </div>
+                  </div>
+                  <div class="field-row">
+                    <div class="field">
+                      <label id="labelSpeechCustomVoice" for="speechCustomVoice"></label>
+                      <input type="text" id="speechCustomVoice" placeholder="af_heart" />
+                    </div>
+                  </div>
+                  <div class="cache-actions">
+                    <button type="button" id="speechCustomTestBtn" class="btn secondary"></button>
+                  </div>
+                </div>
+                <div class="field" id="speechElevenlabsFields" hidden>
+                  <label id="labelSpeechElevenlabsKey" for="speechElevenlabsKey"></label>
+                  <input type="password" id="speechElevenlabsKey" autocomplete="off" />
+                  <label id="labelSpeechElevenlabsVoice" for="speechElevenlabsVoiceId"></label>
+                  <input type="text" id="speechElevenlabsVoiceId" />
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label id="labelSpeechRate" for="speechRate"></label>
+                    <input type="range" id="speechRate" min="0.5" max="2" step="0.1" />
+                  </div>
+                  <div class="field">
+                    <label id="labelSpeechPitch" for="speechPitch"></label>
+                    <input type="range" id="speechPitch" min="0.5" max="2" step="0.1" />
+                  </div>
+                </div>
+                <div class="cache-actions">
+                  <button type="button" id="speechTestBtn" class="btn secondary"></button>
+                  <span id="speechTestStatus" class="status-text"></span>
+                </div>
+                <p id="selectionTtsHint" class="hint cache-hint"></p>
+              </div>
+            </section>
+
+            <section class="page-section" id="sec-cache">
+              <div class="card">
+                <h2 id="cacheTitle"></h2>
+                <p class="section-desc" id="descCache"></p>
+                <label class="switch-row">
+                  <input type="checkbox" id="translationCacheEnabled" checked />
+                  <span class="track"></span>
+                  <span id="translationCacheLabel"></span>
+                </label>
+                <p id="translationCacheHint" class="hint cache-hint"></p>
+                <div class="cache-actions">
+                  <span id="translationCacheCount" class="cache-count"></span>
+                  <button type="button" id="clearCacheBtn" class="btn secondary"></button>
+                  <span id="clearCacheStatus" class="status-text"></span>
+                </div>
+              </div>
+            </section>
+
+            <div class="toolbar">
+              <button id="refreshAllBtn" class="btn secondary"></button>
+              <span id="refreshStatus" class="status-text"></span>
+            </div>
+
+            <div class="actions">
+              <button id="saveBtn" class="btn primary"></button>
+              <span id="saveStatus" class="save-status"></span>
+            </div>
+
+            <section class="page-section" id="sec-about">
+              <div class="card">
+                <h2 id="aboutTitle"></h2>
+                <p class="section-desc" id="descAbout"></p>
+                <p id="footerText"></p>
+                <p><a href="#" id="footerPrivacyLink"></a></p>
+              </div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+    <div class="ms-panel hidden" id="fallbackProviders" role="group"></div>
+    <script type="module">
+  import { DEFAULT_SETTINGS } from '../shared/types.js';
+  const saved = { ...DEFAULT_SETTINGS, defaultLanguage: 'hr', activeProvider: 'libre-self', translatorTheme: 'dark' };
+  const kv = new Map([['settings', saved], ['privacy_consent_v1', true]]);
+  const local = {
+    get: async (keys) => {
+      if (keys == null) return Object.fromEntries(kv);
+      const list = Array.isArray(keys) ? keys : [keys];
+      const out = {};
+      for (const k of list) if (kv.has(k)) out[k] = kv.get(k);
+      return out;
+    },
+    set: async (obj) => { for (const [k, v] of Object.entries(obj)) kv.set(k, v); },
+    remove: async (keys) => { for (const k of [].concat(keys)) kv.delete(k); },
+  };
+  globalThis.browser = {
+    storage: {
+      local,
+      sync: { get: async () => ({}), set: async () => {}, remove: async () => {} },
+      onChanged: { addListener: () => {} },
+    },
+    runtime: {
+      id: 'malisa-preview',
+      lastError: null,
+      getURL: (p) => p,
+      sendMessage: (msg, cb) => {
+        const r =
+          msg.type === 'FETCH_MODELS' ? { ok: true, models: [] }
+          : msg.type === 'TEST_PROVIDER' ? { ok: true, translated: 'Preview translation' }
+          : msg.type === 'REFRESH_ALL_MODELS' ? { ok: true, results: {} }
+          : { ok: true };
+        if (cb) cb(r);
+      },
+    },
+    permissions: { contains: async () => true, request: async () => true },
+    tabs: { create: () => {} },
+  };
+  await import('./options.js');
+</script>
+  </body>
+</html>

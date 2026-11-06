@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Malisa popup preview</title>
+</head>
+<body>
+<div id="mount"></div>
+<script>
+// Mock WebExtension API so popup.js runs outside the extension (layout preview only).
+const settings = {
+  uiLanguage: 'hr',
+  defaultLanguage: 'hr',
+  activeProvider: 'free',
+  translatorTheme: 'light',
+};
+globalThis.browser = {
+  storage: {
+    local: {
+      get: async (key) => (key === 'settings' ? { settings } : {}),
+      set: async () => {},
+    },
+    sync: { get: async () => ({}), remove: async () => {} },
+    onChanged: { addListener: () => {} },
+  },
+  runtime: {
+    sendMessage: async (msg) => {
+      if (msg.type === 'TRANSLATE_TEXT') {
+        return { ok: true, translated: '[PREVIEW] ' + String(msg.text).slice(0, 80) };
+      }
+      return { ok: true };
+    },
+    onMessage: { addListener: () => {} },
+    openOptionsPage: () => {},
+    lastError: null,
+  },
+  tabs: {
+    query: async () => [{ id: 1, url: 'https://example.com' }],
+    sendMessage: async () => ({ isTranslated: false, blockCount: 0 }),
+  },
+  scripting: { executeScript: async () => {} },
+};
+</script>
+<script type="module">
+const res = await fetch('popup/popup.html');
+const doc = new DOMParser().parseFromString(await res.text(), 'text/html');
+const mount = document.getElementById('mount');
+mount.innerHTML = doc.body.innerHTML;
+mount.querySelector('script')?.remove();
+const css = document.createElement('link');
+css.rel = 'stylesheet';
+css.href = 'popup/popup.css';
+document.head.appendChild(css);
+await import('./popup/popup.js');
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Malisa Chat — layout preview</title>
+<style>
+  body { margin: 0; font-family: system-ui, sans-serif; background: #222; color: #eee; }
+  .bar { position: fixed; top: 10px; left: 10px; z-index: 9999; display: flex; gap: 8px; }
+  .bar button { padding: 6px 12px; border-radius: 8px; border: 1px solid #555; background: #333; color: #eee; cursor: pointer; }
+  .bar button.on { background: #6c63ff; border-color: #6c63ff; }
+  #stage { position: fixed; inset: 0; display: flex; justify-content: flex-end; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <button data-theme="dark" class="on">Dark</button>
+  <button data-theme="light">Light</button>
+  <button data-state="empty" class="on">Empty</button>
+  <button data-state="msgs">With messages</button>
+</div>
+<div id="stage"></div>
+<script>
+const stage = document.getElementById('stage');
+let cssText = '';
+fetch('chat-preview.css').then(r => r.text()).then(css => { cssText = css; render('dark', 'empty'); });
+
+function headButtons() {
+  return `<div class="p-head">
+    <div class="p-head-text"><img class="avatar p-avatar" src="icons/icon128.png" alt=""><span class="p-title">Malisa Chat</span></div>
+    <button class="icon-btn" title="New chat">＋</button>
+    <button class="icon-btn" title="Clear chat">🗑</button>
+    <button class="icon-btn" title="Open Settings">⚙</button>
+    <button class="icon-btn" title="Stop" hidden>⏹</button>
+    <button class="icon-btn" title="Stop reading" hidden>⏹</button>
+    <button class="icon-btn" title="Close">✕</button>
+  </div>`;
+}
+
+function welcome() {
+  return `<div class="msgs-wrap"><div class="msgs">
+    <div class="welcome">
+      <img class="avatar w-avatar" src="icons/icon128.png" alt="">
+      <h3>Hi! How can I help?</h3>
+      <p>Ask me anything, summarize or explain this page, or use voice input.</p>
+      <div class="w-sugs">
+        <button class="w-sug" type="button">Summarize this page</button>
+        <button class="w-sug" type="button">Explain selected text</button>
+        <button class="w-sug" type="button">Translate &amp; explain</button>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function messages() {
+  return `<div class="p-actions">
+    <button class="act-btn primary">Summarize this page</button>
+    <button class="act-btn">Explain</button>
+  </div>
+  <div class="msgs-wrap"><div class="msgs">
+    <div class="msg user"><div class="msg-col"><div class="msg-name">You</div><div class="bubble">Can you summarize this page?</div><div class="msg-foot"><span class="ts">01:36</span><span class="acts"><button class="act-i"><span class="ic">⧉</span><span class="tx">Copy</span></button><button class="act-i del"><span class="ic">🗑</span><span class="tx">Delete</span></button></span></div></div></div>
+    <div class="msg assistant"><img class="avatar" src="icons/icon128.png" alt=""><div class="msg-col"><div class="msg-name">Malisa</div><div class="bubble md"><p>This page explains how the Malisa browser extension translates web pages and selected text using configurable AI providers, with fallback support and optional voice features.</p></div><div class="msg-foot"><span class="ts">01:36</span><span class="acts"><button class="act-i"><span class="ic">⧉</span><span class="tx">Copy</span></button><button class="act-i tts-btn"><span class="ic">🔊</span><span class="tx">Listen</span></button><button class="act-i del"><span class="ic">🗑</span><span class="tx">Delete</span></button></span></div></div></div>
+  </div></div>`;
+}
+
+const inputRow = `<div class="p-input-row">
+  <button class="mic-btn" title="Voice input">🎤</button>
+  <textarea rows="1" placeholder="Ask Malisa…"></textarea>
+  <button class="send-btn">Send</button>
+</div>`;
+
+function render(theme, state) {
+  stage.innerHTML = '';
+  const host = document.createElement('div');
+  host.id = 'malisa-chat-host';
+  host.dataset.theme = theme;
+  const shadow = host.attachShadow({ mode: 'open' });
+  shadow.innerHTML = `<style>${cssText}</style>
+    <div class="icon"><img src="icons/icon128.png" alt=""></div>
+    <div class="panel open">${headButtons()}${state === 'msgs' ? messages() : welcome()}${inputRow}</div>`;
+  stage.appendChild(host);
+}
+
+document.querySelectorAll('.bar [data-theme]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.bar [data-theme]').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); render(b.dataset.theme, currentState);
+}));
+let currentState = 'empty';
+document.querySelectorAll('.bar [data-state]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.bar [data-state]').forEach(x => x.classList.remove('on'));
+  b.classList.add('on'); currentState = b.dataset.state; render(currentTheme, currentState);
+}));
+let currentTheme = 'dark';
+document.querySelectorAll('.bar [data-theme]').forEach(b => b.addEventListener('click', () => { currentTheme = b.dataset.theme; }));
+</script>
+</body>
+</html>

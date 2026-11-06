@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Malisa — Voice Input</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #1b1b26; color: #e8e8f0; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; padding: 24px 16px;
+    }
+    h1 { font-size: 17px; margin: 0 0 4px; }
+    .sub { font-size: 12px; color: #9a9ab0; margin-bottom: 18px; text-align: center; }
+    .mic-btn {
+      width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer;
+      background: #6c63ff; color: #fff; font-size: 30px; display: flex;
+      align-items: center; justify-content: center; transition: transform .1s;
+    }
+    .mic-btn:active { transform: scale(.94); }
+    .mic-btn.listening { background: #e5534b; animation: pulse 1.2s infinite; }
+    .mic-btn:disabled { opacity: .5; cursor: wait; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(229, 83, 75, .55); }
+      50% { box-shadow: 0 0 0 12px rgba(229, 83, 75, 0); }
+    }
+    .status { margin-top: 14px; font-size: 13px; color: #b9b9d0; min-height: 18px; }
+    .status.err { color: #ff8a80; }
+    .transcript {
+      margin-top: 14px; width: 100%; min-height: 90px; max-height: 180px; overflow-y: auto;
+      background: #12121c; border: 1px solid #33334a; border-radius: 10px;
+      padding: 10px 12px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap;
+    }
+    .actions { margin-top: 16px; display: flex; gap: 10px; }
+    button.act {
+      border: none; border-radius: 8px; padding: 9px 18px; font-size: 13px;
+      font-weight: 600; cursor: pointer;
+    }
+    .act.primary { background: #6c63ff; color: #fff; }
+    .act.ghost { background: transparent; color: #b9b9d0; border: 1px solid #44445e; }
+    .act:disabled { opacity: .5; cursor: default; }
+  </style>
+</head>
+<body>
+  <h1>Malisa Voice Input</h1>
+  <p class="sub" id="micSub">Click the microphone and speak.</p>
+  <button class="mic-btn" id="micBtn" aria-label="Start voice input">🎤</button>
+  <div class="status" id="micStatus"></div>
+  <div class="transcript" id="micTranscript"></div>
+  <div class="actions">
+    <button class="act primary" id="micUse" disabled>Use this text</button>
+    <button class="act ghost" id="micClose">Close</button>
+  </div>
+  <script type="module" src="mic.js"></script>
+</body>
+</html>
